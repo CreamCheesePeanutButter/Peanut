@@ -32,3 +32,38 @@ async function main() {
 }
 
 main();
+
+// async function clearCommands() {
+//   const url = `https://discord.com/api/v10/applications/${APP_ID}/guilds/${GUILD_ID}/commands`;
+
+//   const res = await fetch(url, {
+//     method: "PUT",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bot ${DISCORD_TOKEN}`,
+//     },
+//     body: JSON.stringify([]),
+//   });
+
+//   console.log("Status:", res.status);
+//   console.log(await res.text());
+// }
+// clearCommands();
+
+// async function clearGlobalCommands() {
+//   const url = `https://discord.com/api/v10/applications/${APP_ID}/commands`;
+
+//   const res = await fetch(url, {
+//     method: "PUT",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bot ${DISCORD_TOKEN}`,
+//     },
+//     body: JSON.stringify([]),
+//   });
+
+//   console.log("Global clear status:", res.status);
+//   console.log(await res.text());
+// }
+
+// clearGlobalCommands();

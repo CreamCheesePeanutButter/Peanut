@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 delete mongoose.models.User;
 
 const UserSchema = new mongoose.Schema({
-  discordID: {
+  discordId: {
     type: String,
     required: true,
     unique: true,
@@ -19,6 +19,10 @@ const UserSchema = new mongoose.Schema({
   isAdmin: {
     type: Boolean,
     default: false,
+  },
+  lastDaily: {
+    type: Date,
+    default: null,
   },
 });
 

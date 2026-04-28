@@ -1,54 +1,40 @@
-import { InteractionResponseType } from "discord-interactions";
+import { ChatInputCommandInteraction } from "discord.js";
 import User from "../models/User.ts";
 
-export async function handleCash(
-  req: {
-    body: {
-      member?: { user?: { id: string; username: string } };
-      user?: { id: string; username: string };
-    };
-  },
-  res: any,
-) {
-  const discordUser = req.body.member?.user || req.body.user;
+export async function handleCash(interaction: ChatInputCommandInteraction) {
+  const discordUser = interaction.user;
 
   if (!discordUser?.id) {
-    return res.send({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      data: { content: "❌ Could not identify your Discord account." },
+    return interaction.reply({
+      content: "❌ Could not identify your Discord account.",
+      ephemeral: true,
     });
   }
 
   try {
     const existing = await User.findOne({
-      discordID: discordUser.id,
+      discordId: discordUser.id,
     });
 
     if (!existing) {
-      return res.send({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          content: "⚠️ You need to register first using /register.",
-        },
+      return interaction.reply({
+        content: "⚠️ You need to register first using /register.",
+        ephemeral: true,
       });
     }
 
+    // Update username in case it changed
     existing.username = discordUser.username;
 
-    return res.send({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      data: {
-        content: `💰 You have ${existing.pcash} pcash.`,
-      },
+    return interaction.reply({
+      content: `💰 You have ${existing.pcash} pcash.`,
     });
   } catch (error) {
-    console.error("Error updating user:", error);
+    console.error("Error checking user cash:", error);
 
-    return res.send({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      data: {
-        content: "❌ An error occurred while checking your cash balance.",
-      },
+    return interaction.reply({
+      content: "❌ An error occurred while checking your cash balance.",
+      ephemeral: true,
     });
   }
 }

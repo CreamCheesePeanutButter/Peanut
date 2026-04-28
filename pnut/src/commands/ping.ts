@@ -1,13 +1,7 @@
-import { InteractionResponseType } from "discord-interactions";
+import { ChatInputCommandInteraction } from "discord.js";
 
-export function handlePing(
-  req: { body: { data: { name: string } } },
-  res: any,
-) {
-  return res.send({
-    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-    data: {
-      content: "🏓 Pong!",
-    },
+export async function handlePing(interaction: ChatInputCommandInteraction) {
+  return interaction.reply({
+    content: "🏓 Pong!",
   });
 }
