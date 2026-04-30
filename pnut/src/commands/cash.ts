@@ -1,5 +1,6 @@
-import { ChatInputCommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction, AttachmentBuilder } from "discord.js";
 import User from "../models/User.ts";
+import path from "path";
 
 export async function handleCash(interaction: ChatInputCommandInteraction) {
   const discordUser = interaction.user;
@@ -23,11 +24,34 @@ export async function handleCash(interaction: ChatInputCommandInteraction) {
       });
     }
 
-    // Update username in case it changed
     existing.username = discordUser.username;
+    await existing.save();
+
+    // Local image path
+    const imagePath = path.join(
+      process.cwd(),
+      "src",
+      "res",
+      "mahiru_sleep.png",
+    );
+
+    const attachment = new AttachmentBuilder(imagePath, {
+      name: "mahiru_sleep.png",
+    });
 
     return interaction.reply({
-      content: `💰 You have ${existing.pcash} pcash.`,
+      content: `💰 ${existing.username}, you have ${existing.pcash} pcash.`,
+      embeds: [
+        {
+          title: "Cash Balance",
+          description: `You have **${existing.pcash}** pcash.`,
+          image: {
+            url: "attachment://mahiru_sleep.png",
+          },
+          color: 0x57f287,
+        },
+      ],
+      files: [attachment],
     });
   } catch (error) {
     console.error("Error checking user cash:", error);

@@ -1,12 +1,19 @@
 import { joinVoiceChannel } from "@discordjs/voice";
 
 export async function handleJoin(interaction: any) {
-  const member = interaction.guild?.members.cache.get(interaction.user.id);
-  const channel = member?.voice.channel;
+  // Support slash OR prefix
+  const member =
+    interaction.member ||
+    interaction.guild?.members.cache.get(interaction.user?.id);
 
-  if (!channel) {
-    return interaction.reply("Join a voice channel first.");
+  if (!member?.voice?.channel) {
+    return interaction.reply({
+      content: "❌ You need to be in a voice channel first.",
+      ephemeral: true,
+    });
   }
+
+  const channel = member.voice.channel;
 
   joinVoiceChannel({
     channelId: channel.id,
@@ -14,5 +21,5 @@ export async function handleJoin(interaction: any) {
     adapterCreator: channel.guild.voiceAdapterCreator,
   });
 
-  return interaction.reply(`Joined ${channel.name}`);
+  return interaction.reply(`🎤 Joined ${channel.name}`);
 }

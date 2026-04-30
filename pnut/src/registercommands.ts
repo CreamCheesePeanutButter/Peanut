@@ -14,6 +14,7 @@ async function main() {
     { name: "daily", description: "Claim your daily reward" },
     { name: "cash", description: "Check your pcash balance" },
     { name: "join", description: "Join the voice channel" },
+    { name: "coinflip", description: "Flip a coin" },
   ];
 
   const url = `https://discord.com/api/v10/applications/${APP_ID}/guilds/${GUILD_ID}/commands`;

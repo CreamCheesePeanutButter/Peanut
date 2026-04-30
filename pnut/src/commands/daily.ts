@@ -37,6 +37,8 @@ export async function handleDaily(interaction: ChatInputCommandInteraction) {
     // Example daily reward
     existing.pcash += 100;
 
+    existing.lastDaily = new Date();
+
     await existing.save();
 
     return interaction.reply({

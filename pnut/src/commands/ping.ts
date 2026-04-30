@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction, MessageFlags } from "discord.js";
 
 export async function handlePing(interaction: ChatInputCommandInteraction) {
   return interaction.reply({

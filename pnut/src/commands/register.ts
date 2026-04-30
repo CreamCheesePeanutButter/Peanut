@@ -30,6 +30,7 @@ export async function handleRegister(interaction: ChatInputCommandInteraction) {
       username: discordUser.username,
       pcash: 0,
       isAdmin: false,
+      lastDaily: null,
     });
 
     return interaction.reply({
